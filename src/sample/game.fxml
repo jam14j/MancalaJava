@@ -10,7 +10,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="435.0" prefWidth="598.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="435.0" prefWidth="598.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.game_Controller">
    <children>
       <Ellipse fx:id="p1_mancala" fill="DODGERBLUE" layoutX="65.0" layoutY="276.0" radiusX="46.0" radiusY="109.0" stroke="BLACK" strokeType="INSIDE" />
       <Ellipse fx:id="p2_mancala" fill="DODGERBLUE" layoutX="525.0" layoutY="276.0" radiusX="46.0" radiusY="109.0" stroke="BLACK" strokeType="INSIDE" />
@@ -31,10 +31,10 @@
             <Font name="Poor Richard" size="64.0" />
          </font>
       </Text>
-      <Text fx:id="player_setting" layoutX="168.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Single Player" textAlignment="CENTER" wrappingWidth="251.205078125">
+      <Label fx:id="player_settings" alignment="CENTER" contentDisplay="CENTER" layoutX="111.0" layoutY="90.0" prefHeight="56.0" prefWidth="358.0" text="Single Player">
          <font>
             <Font name="Poor Richard" size="48.0" />
          </font>
-      </Text>
+      </Label>
    </children>
 </AnchorPane>
