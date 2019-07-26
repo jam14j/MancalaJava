@@ -3,6 +3,7 @@ package sample;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -22,7 +23,7 @@ public class Controller {
             mStage.show();
         }
         catch (IOException e) {
-
+            e.printStackTrace();
         }
 	}
 
@@ -31,21 +32,26 @@ public class Controller {
             Stage mStage = new Stage();
             //Parent root = FXMLLoader.load(getClass().getResource("game.fxml"));
             FXMLLoader loader = new FXMLLoader(getClass().getResource("game.fxml"));
-            Parent root = loader.load(getClass().getResource("game.fxml"));
-
+            Parent root = (Parent) loader.load();
+            game_Controller gc = loader.<game_Controller>getController();
+            gc.setSettings();
 
             mStage.setTitle("Super Mancala");
             mStage.setScene(new Scene(root, 600, 440));
             mStage.show();
-            game_Controller gc = loader.getController();
-            gc.setSettings();
         }
-        catch (IOException e){
-
-        }
-//        FXMLLoader loader = new FXMLLoader(getClass().getResource("game.fxml"));
-//        game_Controller gc = loader.getController();
-//        gc.setSettings();
-
+        catch (IOException e){ e.printStackTrace(); }
 	}
+
+	@FXML public void showRules(ActionEvent event) {
+        try {
+            Stage mStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Parent root = FXMLLoader.load(getClass().getResource("rules.fxml"));
+            mStage.setTitle("Super Mancala Rules");
+            mStage.setScene(new Scene(root, 600, 440));
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

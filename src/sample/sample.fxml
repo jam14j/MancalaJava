@@ -40,7 +40,7 @@
             <Text layoutX="93.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SUPER MANCALA" />
          </children>
       </AnchorPane>
-      <Button alignment="CENTER" mnemonicParsing="false" prefHeight="39.0" prefWidth="255.0" text="Rules" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+      <Button alignment="CENTER" mnemonicParsing="false" onAction="#showRules" prefHeight="39.0" prefWidth="255.0" text="Rules" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
       <Button alignment="CENTER" mnemonicParsing="false" prefHeight="39.0" prefWidth="256.0" text="Settings" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
       <Button alignment="CENTER" mnemonicParsing="false" onAction="#startVersus" prefHeight="39.0" prefWidth="254.0" text="Versus" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
    </children>
