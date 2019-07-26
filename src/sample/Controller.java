@@ -29,17 +29,23 @@ public class Controller {
 	@FXML public void startVersus(ActionEvent event) {
         try {
             Stage mStage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("game.fxml"));
+            //Parent root = FXMLLoader.load(getClass().getResource("game.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("game.fxml"));
+            Parent root = loader.load(getClass().getResource("game.fxml"));
+
+
             mStage.setTitle("Super Mancala");
             mStage.setScene(new Scene(root, 600, 440));
             mStage.show();
+            game_Controller gc = loader.getController();
+            gc.setSettings();
         }
         catch (IOException e){
 
         }
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("game.fxml"));
-        game_Controller gc = loader.getController();
-        gc.setSettings();
+//        FXMLLoader loader = new FXMLLoader(getClass().getResource("game.fxml"));
+//        game_Controller gc = loader.getController();
+//        gc.setSettings();
 
 	}
 }
