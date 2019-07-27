@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.effect.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import java.util.ArrayList?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="435.0" prefWidth="598.0" style="-fx-background-color: gray;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.game_Controller">
+   <children>
+      <Ellipse fx:id="p1_mancala" fill="DODGERBLUE" layoutX="67.0" layoutY="276.0" radiusX="46.0" radiusY="109.0" stroke="BLACK" strokeType="INSIDE" />
+      <Ellipse fx:id="p2_mancala" fill="DODGERBLUE" layoutX="525.0" layoutY="276.0" radiusX="46.0" radiusY="109.0" stroke="BLACK" strokeType="INSIDE" />
+      <Ellipse fx:id="pile_6" fill="DODGERBLUE" layoutX="161.0" layoutY="219.0" radiusX="27.0" radiusY="28.0" stroke="BLACK" strokeType="INSIDE" />
+      <Ellipse fx:id="pile_5" fill="DODGERBLUE" layoutX="215.0" layoutY="219.0" radiusX="27.0" radiusY="28.0" stroke="BLACK" strokeType="INSIDE" />
+      <Ellipse fx:id="pile_4" fill="DODGERBLUE" layoutX="269.0" layoutY="219.0" radiusX="27.0" radiusY="28.0" stroke="BLACK" strokeType="INSIDE" />
+      <Ellipse fx:id="pile_3" fill="DODGERBLUE" layoutX="323.0" layoutY="219.0" radiusX="27.0" radiusY="28.0" stroke="BLACK" strokeType="INSIDE" />
+      <Ellipse fx:id="pile_2" fill="DODGERBLUE" layoutX="377.0" layoutY="219.0" radiusX="27.0" radiusY="28.0" stroke="BLACK" strokeType="INSIDE" />
+      <Ellipse fx:id="pile_1" fill="DODGERBLUE" layoutX="431.0" layoutY="219.0" radiusX="27.0" radiusY="28.0" stroke="BLACK" strokeType="INSIDE" />
+      <Ellipse fx:id="pile_7" fill="DODGERBLUE" layoutX="161.0" layoutY="321.0" radiusX="27.0" radiusY="28.0" stroke="BLACK" strokeType="INSIDE" />
+      <Ellipse fx:id="pile_8" fill="DODGERBLUE" layoutX="215.0" layoutY="321.0" radiusX="27.0" radiusY="28.0" stroke="BLACK" strokeType="INSIDE" />
+      <Ellipse fx:id="pile_9" fill="DODGERBLUE" layoutX="269.0" layoutY="321.0" radiusX="27.0" radiusY="28.0" stroke="BLACK" strokeType="INSIDE" />
+      <Ellipse fx:id="pile_10" fill="DODGERBLUE" layoutX="323.0" layoutY="321.0" radiusX="27.0" radiusY="28.0" stroke="BLACK" strokeType="INSIDE" />
+      <Ellipse fx:id="pile_11" fill="DODGERBLUE" layoutX="377.0" layoutY="321.0" radiusX="27.0" radiusY="28.0" stroke="BLACK" strokeType="INSIDE" />
+      <Ellipse fx:id="pile_12" fill="DODGERBLUE" layoutX="431.0" layoutY="321.0" radiusX="27.0" radiusY="28.0" stroke="BLACK" strokeType="INSIDE" />
+      <fx:define>
+         <ArrayList fx:id="pile_list_ellipse">
+            <fx:reference source="pile_1" />
+            <fx:reference source="pile_2" />
+            <fx:reference source="pile_3" />
+            <fx:reference source="pile_4" />
+            <fx:reference source="pile_5" />
+            <fx:reference source="pile_6" />
+            <fx:reference source="pile_7" />
+            <fx:reference source="pile_8" />
+            <fx:reference source="pile_9" />
+            <fx:reference source="pile_10" />
+            <fx:reference source="pile_11" />
+            <fx:reference source="pile_12" />
+         </ArrayList>
+      </fx:define>
+      <Text fx:id="Game_name" layoutX="51.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Super Mancala" wrappingWidth="496.205078125">
+         <font>
+            <Font name="ROGFonts-Regular" size="46.0" />
+         </font>
+      </Text>
+      <Label fx:id="player_settings" alignment="CENTER" contentDisplay="CENTER" layoutX="105.0" layoutY="90.0" prefHeight="56.0" prefWidth="388.0" text="Single Player">
+         <font>
+            <Font name="ROGFonts-Regular" size="36.0" />
+         </font>
+      </Label>
+      <Button fx:id="pile_button1" layoutX="134.0" layoutY="191.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="54.0" text="4" />
+      <Button fx:id="pile_button2" layoutX="188.0" layoutY="191.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="54.0" text="4" />
+      <Button fx:id="pile_button3" layoutX="242.0" layoutY="191.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="54.0" text="4" />
+      <Button fx:id="pile_button4" layoutX="296.0" layoutY="191.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="54.0" text="4" />
+      <Button fx:id="pile_button5" layoutX="350.0" layoutY="191.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="54.0" text="4" />
+      <Button fx:id="pile_button6" layoutX="404.0" layoutY="191.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="54.0" text="4" />
+      <Button fx:id="pile_button7" layoutX="134.0" layoutY="293.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="54.0" text="4" />
+      <Button fx:id="pile_button8" layoutX="188.0" layoutY="293.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="54.0" text="4" />
+      <Button fx:id="pile_button9" layoutX="242.0" layoutY="293.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="54.0" text="4" />
+      <Button fx:id="pile_button10" layoutX="296.0" layoutY="293.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="54.0" text="4" />
+      <Button fx:id="pile_button11" layoutX="350.0" layoutY="293.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="54.0" text="4" />
+      <Button fx:id="pile_button12" layoutX="404.0" layoutY="293.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="54.0" text="4" />
+      <fx:define>
+      <ArrayList fx:id="pile_list_button">
+         <fx:reference source="pile_button1" />
+         <fx:reference source="pile_button2" />
+         <fx:reference source="pile_button3" />
+         <fx:reference source="pile_button4" />
+         <fx:reference source="pile_button5" />
+         <fx:reference source="pile_button6" />
+         <fx:reference source="pile_button7" />
+         <fx:reference source="pile_button8" />
+         <fx:reference source="pile_button9" />
+         <fx:reference source="pile_button10" />
+         <fx:reference source="pile_button11" />
+         <fx:reference source="pile_button12" />
+      </ArrayList>
+      </fx:define>
+      <Label fx:id="turn_label" alignment="CENTER" contentDisplay="CENTER" layoutX="105.0" layoutY="365.0" prefHeight="56.0" prefWidth="388.0" text="Player 1's Turn!">
+         <font>
+            <Font name="ROGFonts-Regular" size="36.0" />
+         </font>
+      </Label>
+      <Label fx:id="p1_mancala_label" layoutX="62.0" layoutY="263.0" text="0" />
+      <Label fx:id="p2_mancala_label" layoutX="520.0" layoutY="263.0" text="0" />
+   </children>
+
+</AnchorPane>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+
+
+<GridPane alignment="center" hgap="10" prefHeight="776.0" prefWidth="1054.0" vgap="10" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="sample.Controller">
+   <columnConstraints>
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+   </rowConstraints>
+   <children>
+      <Button id="playButton" alignment="CENTER" mnemonicParsing="false" onAction="#startSingle" prefHeight="39.0" prefWidth="257.0" text="Lonely Player" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+      <AnchorPane prefHeight="264.0" prefWidth="327.0">
+         <children>
+            <Text layoutX="93.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SUPER MANCALA" />
+         </children>
+      </AnchorPane>
+      <Button alignment="CENTER" mnemonicParsing="false" onAction="#showRules" prefHeight="39.0" prefWidth="255.0" text="Rules" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+      <Button alignment="CENTER" mnemonicParsing="false" prefHeight="39.0" prefWidth="256.0" text="Settings" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+      <Button alignment="CENTER" mnemonicParsing="false" onAction="#startVersus" prefHeight="39.0" prefWidth="254.0" text="Versus" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+   </children>
+</GridPane>
