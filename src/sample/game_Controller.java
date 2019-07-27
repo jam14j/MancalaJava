@@ -25,6 +25,8 @@ public class game_Controller {
             button.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
+                    int amt = Integer.parseInt(button.getText());
+                    button.setText("0");
                     int whichButton = -1;
                     switch (button.getId()) {
                         case "pile_button1":
@@ -64,10 +66,10 @@ public class game_Controller {
                             whichButton = 11;
                             break;
                     }
-                    int amt = Integer.parseInt(button.getText());
-                    for (int k = amt; k > -1; k--) {
+                    for (int k = amt; k > 0; k--) {
                         if (whichButton == 5) {
-                            Button nextButton = pile_list_button.get(whichButton++);
+                            whichButton++;
+                            Button nextButton = pile_list_button.get(whichButton);
                             if (whosTurn)//player one's turn so allow  p1 mancala to go up
                             {
                                 //extra k-- because one goes in mancala
@@ -87,6 +89,7 @@ public class game_Controller {
                                 nextButton.setText(String.valueOf(newValue));
                             }
                         } else if (whichButton == 11) {
+                            whichButton=0;
                             Button nextButton = pile_list_button.get(0);
                             if (whosTurn)//if player one dont add to p2_mancala
                             {
@@ -106,16 +109,21 @@ public class game_Controller {
                                 }
                             }
                         } else {
-                            Button nextButton = pile_list_button.get(whichButton++);
+                            whichButton++;
+                            Button nextButton = pile_list_button.get(whichButton);
                             int newValue = Integer.parseInt(nextButton.getText());
                             newValue++;
                             nextButton.setText(String.valueOf(newValue));
                         }
-                        button.setText("0");
 
+                        if (whichButton==12)
+                        {
+                            whichButton=0;
+                        }
                     }
                     whosTurn = !whosTurn;
                     takeTurn();
+
 
                 }
             });
