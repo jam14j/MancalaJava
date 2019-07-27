@@ -60,4 +60,16 @@ public class Controller {
             e.printStackTrace();
         }
     }
+
+    @FXML public void showSettings(ActionEvent event) {
+        try {
+            Stage mStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Parent root = FXMLLoader.load(getClass().getResource("settings.fxml"));
+            mStage.setTitle("Super Mancala Settings");
+            mStage.setScene(new Scene(root, 600, 440));
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

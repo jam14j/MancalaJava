@@ -1,6 +1,7 @@
 package sample;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -9,7 +10,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class rules_Controller {
+public class settings_Controller {
+
 
 
 	public void backToMain(ActionEvent event) {
