@@ -121,9 +121,20 @@ public class game_Controller {
                             whichButton=0;
                         }
                     }
-                    whosTurn = !whosTurn;
-                    takeTurn();
+                    String ending;
 
+                    if (whichButton==6 && whosTurn){
+                        ending = "p1_mancala";
+                    }
+                    else if (whichButton==0&& !whosTurn){
+                        ending = "p2 mancala";
+                    }
+                    else {
+                        whosTurn = !whosTurn;
+                        takeTurn();
+                        ending = String.valueOf(whichButton);
+                    }
+                    System.out.printf("Starting pile: %s Ending index : %s\n",button.getId(),ending);
 
                 }
             });
