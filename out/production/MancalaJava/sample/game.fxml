@@ -88,6 +88,7 @@
       </Label>
       <Label fx:id="p1_mancala_label" layoutX="62.0" layoutY="263.0" text="0" />
       <Label fx:id="p2_mancala_label" layoutX="520.0" layoutY="263.0" text="0" />
+      <Label fx:id="winner_label" layoutX="100.0" layoutY="176.0" prefHeight="174.0" prefWidth="398.0" text="Label" visible="false" />
    </children>
 
 </AnchorPane>
