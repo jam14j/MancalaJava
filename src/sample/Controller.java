@@ -43,18 +43,12 @@ public class Controller {
         catch (IOException e){ e.printStackTrace(); }
 	}
 
-	@FXML public void showRules(ActionEvent event) {
+    @FXML public void showRules(ActionEvent event) {
         try {
-            Stage mStage = new Stage();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("game.fxml"));
-            Parent root = (Parent) loader.load();
-            game_Controller gc = loader.<game_Controller>getController();
-            gc.Initialize();
-
+            Stage mStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Parent root = FXMLLoader.load(getClass().getResource("rules.fxml"));
             mStage.setTitle("Super Mancala Rules");
             mStage.setScene(new Scene(root, 600, 440));
-
-
         }
         catch (IOException e) {
             e.printStackTrace();

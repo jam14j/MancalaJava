@@ -15,7 +15,7 @@ public class game_Controller {
     @FXML private Ellipse p1_mancala, p2_mancala;
     @FXML private List<Button> pile_list_button;
     @FXML private List<Ellipse> pile_list_ellipse;
-    Boolean whosTurn = true;
+    private boolean whosTurn = true;
 
     public void Initialize() {
         for (int i = 0; i < 12; i++) {
@@ -64,65 +64,40 @@ public class game_Controller {
                             whichButton = 11;
                             break;
                     }
+                    //System.out.println("Button pressed: "+whichButton);
                     int amt = Integer.parseInt(button.getText());
-                    for (int k = amt; k > -1; k--) {
-                        if (whichButton == 5) {
-                            Button nextButton = pile_list_button.get(whichButton++);
-                            if (whosTurn)//player one's turn so allow  p1 mancala to go up
-                            {
-                                //extra k-- because one goes in mancala
-                                k--;
-                                int newValue = Integer.parseInt(p1_mancala_label.getText());
-                                newValue++;
-                                p1_mancala_label.setText(String.valueOf(newValue));
-
-                                if (k > 0) {
-                                    newValue = Integer.parseInt(nextButton.getText());
-                                    newValue++;
-                                    nextButton.setText(String.valueOf(newValue));
-                                }
-                            } else {//else dont put anything into p1_mancala
-                                int newValue = Integer.parseInt(nextButton.getText());
-                                newValue++;
-                                nextButton.setText(String.valueOf(newValue));
-                            }
-                        } else if (whichButton == 11) {
-                            Button nextButton = pile_list_button.get(0);
-                            if (whosTurn)//if player one dont add to p2_mancala
-                            {
-                                int newValue = Integer.parseInt(nextButton.getText());
-                                newValue++;
-                                nextButton.setText(String.valueOf(newValue));
-                            } else {//add to p2 mancala cuz its p2's turn
-                                k--;
-                                int newValue = Integer.parseInt(p2_mancala_label.getText());
-                                newValue++;
-                                p2_mancala_label.setText(String.valueOf(newValue));
-
-                                if (k > 0) {
-                                    newValue = Integer.parseInt(nextButton.getText());
-                                    newValue++;
-                                    nextButton.setText(String.valueOf(newValue));
-                                }
-                            }
-                        } else {
-                            Button nextButton = pile_list_button.get(whichButton++);
-                            int newValue = Integer.parseInt(nextButton.getText());
-                            newValue++;
-                            nextButton.setText(String.valueOf(newValue));
+                    button.setText("0");    // moved this up here for clarity -Juan
+                    for (int k = amt; k > 0; k--) {
+                        if(whichButton == 5 && whosTurn && k>0) {
+                            k--;
+                            int mancalaValue = Integer.parseInt(p1_mancala_label.getText());
+                            mancalaValue++;
+                            p1_mancala_label.setText(String.valueOf(mancalaValue));
                         }
-                        button.setText("0");
-
+                        else if(whichButton == 11 && !whosTurn && k>0) {
+                            k--;
+                            int mancalaValue = Integer.parseInt(p2_mancala_label.getText());
+                            mancalaValue++;
+                            p2_mancala_label.setText(String.valueOf(mancalaValue));
+                        }
+                        if(k == 0)
+                            break;
+                        whichButton++;
+                        if(whichButton == 12)
+                            whichButton = 0;
+                        Button nextButton = pile_list_button.get(whichButton);
+                        int newValue = Integer.parseInt(nextButton.getText());
+                        newValue++;
+                        nextButton.setText(String.valueOf(newValue));
                     }
-                    whosTurn = !whosTurn;
                     takeTurn();
-
                 }
             });
         }
     }
 
     public void takeTurn() {
+        whosTurn = !whosTurn;
         if (whosTurn) {
             turn_label.setText("Player 1's Turn!");
             for (int i = 0; i < 6; i++) {
