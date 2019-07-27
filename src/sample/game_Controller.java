@@ -167,11 +167,13 @@ public class game_Controller {
 
                     String ending;
                     if (whichButton == 6 && whosTurn && forGoAgain) {
+                        takeTurn();
                         ending = "p1_mancala";
                         turn_label.setText("Player 1's Turn Again!!!");
                         playGoAgain();
 
                     } else if (whichButton == 0 && !whosTurn && forGoAgain) {
+                        takeTurn();
                         ending = "p2 mancala";
                         turn_label.setText("Player 2's Turn Again!!!");
                         playGoAgain();
@@ -239,17 +241,25 @@ public class game_Controller {
             turn_label.setText("Player 1's Turn!");
             for (int i = 0; i < 6; i++) {
                 pile_list_button.get(i).setDisable(false);
+                if (pile_list_button.get(i).getText().compareTo("0")==0)
+                    pile_list_button.get(i).setDisable(true);
             }
             for (int i = 6; i < 12; i++) {
                 pile_list_button.get(i).setDisable(true);
+                if (pile_list_button.get(i).getText().compareTo("0")==0)
+                    pile_list_button.get(i).setDisable(true);
             }
         } else {
             turn_label.setText("Player 2's Turn!");
             for (int i = 0; i < 6; i++) {
                 pile_list_button.get(i).setDisable(true);
+                if (pile_list_button.get(i).getText().compareTo("0")==0)
+                    pile_list_button.get(i).setDisable(true);
             }
             for (int i = 6; i < 12; i++) {
                 pile_list_button.get(i).setDisable(false);
+                if (pile_list_button.get(i).getText().compareTo("0")==0)
+                    pile_list_button.get(i).setDisable(true);
             }
         }
     }
