@@ -32,8 +32,8 @@ public class game_Controller {
 
     public void InitializeSingle() {
         players = false;
+        playStart();
         for (int i = 0; i < 12; i++) {
-            playStart();
             Button button = pile_list_button.get(i);
             button.setStyle("-fx-background-color: transparent;");
             if (whosTurn)
@@ -221,8 +221,8 @@ public class game_Controller {
 
     public void InitializeVersus() {
         players = true;
+        playStart();
         for (int i = 0; i < 12; i++) {
-            playStart();
             Button button = pile_list_button.get(i);
             button.setStyle("-fx-background-color: transparent;");
             takeTurn(players);
@@ -408,7 +408,6 @@ public class game_Controller {
     }
 
     private void playSteal() {
-        AudioInputStream audioIn = null;
         String filename;
         filename = "sounds/yoink.wav";
         Media sound = new Media(new File(filename).toURI().toString());
@@ -484,6 +483,7 @@ public class game_Controller {
     }
 
     public void Victory() {
+        playVictory();
         int playerOneScore = Integer.parseInt(p1_mancala_label.getText());
         int playerTwoScore = Integer.parseInt(p2_mancala_label.getText());
 
@@ -512,19 +512,17 @@ public class game_Controller {
                 winner_label.setVisible(true);
             }
         }
-        playVictory();
-
     }
 
     public void playStart() {
-        AudioInputStream audioIn = null;
-        String filename = "sounds/are_you_ready_grant.m4a";
+        String filename;
 //        if (Spanish)
 //        {
-//            filename = "sounds/are_you_ready_juan.m4a";
+//            filename = "sounds/are_you_ready_juan.wav";
 //        }
-//        else if(English){
-//            String filename = "sounds/are_you_ready_grant.wav";
+//        else if(English)
+//        {
+            filename = "sounds/are_you_ready_grant.wav";
 //        }
 //        else if(French)
 //        {
@@ -535,24 +533,17 @@ public class game_Controller {
         MediaPlayer mediaPlayer = new MediaPlayer(sound);
         mediaPlayer.seek(Duration.millis(0));
         mediaPlayer.play();
-        mediaPlayer.setOnEndOfMedia(new Runnable() {
-            @Override
-            public void run() {
-                mediaPlayer.stop();
-            }
-        });
     }
 
     public void playGoAgain() {
-        AudioInputStream audioIn = null;
         String filename;
         if (!players && whosTurn) {
 //            if(english)
-            filename = "sounds/haha_grant.m4a";
+            filename = "sounds/haha_grant.wav";
 //            else if (spanish)
-//                filename = "sounds/haha_juan.m4a";
+//                filename = "sounds/haha_juan.wav";
 //            else if (french)
-//                filename = "haha_french.m4a";
+//                filename = "haha_french.wav";
         } else {
             filename = "sounds/go_again.wav";
         }
@@ -560,12 +551,6 @@ public class game_Controller {
         MediaPlayer mediaPlayer = new MediaPlayer(sound);
         mediaPlayer.seek(Duration.millis(0));
         mediaPlayer.play();
-        mediaPlayer.setOnEndOfMedia(new Runnable() {
-            @Override
-            public void run() {
-                mediaPlayer.stop();
-            }
-        });
     }
 
     public void playVictory() {
@@ -573,18 +558,16 @@ public class game_Controller {
         int playerTwoScore = Integer.parseInt(p2_mancala_label.getText());
 
         String filename;
-        AudioInputStream audioIn = null;
         if (!players) {
             if (playerOneScore > playerTwoScore) {
                 //player one wins
                 //if (english)
-                filename = "sounds/beaten_by_computer_grant.m4a";
+                filename = "sounds/beaten_by_computer_grant.wav";
                 //else if (spanish)
-                //file name = "sounds/beaten_by_computer_juan.m4a";
+                //file name = "sounds/beaten_by_computer_juan.wav";
                 //else if (french)
-                //file name = "sounds/beaten_by_computer_french.m4a";
-            }
-            else
+                //file name = "sounds/beaten_by_computer_french.wav";
+            } else
                 filename = "sounds/ff7.wav";
         } else
             filename = "sounds/ff7.wav";
@@ -592,12 +575,6 @@ public class game_Controller {
         MediaPlayer mediaPlayer = new MediaPlayer(sound);
         mediaPlayer.seek(Duration.millis(0));
         mediaPlayer.play();
-        mediaPlayer.setOnEndOfMedia(new Runnable() {
-            @Override
-            public void run() {
-                mediaPlayer.stop();
-            }
-        });
     }
 
     public void choiceByPC() {
@@ -617,7 +594,7 @@ public class game_Controller {
             button.fire();
         } else {
             endGame();
-            playVictory();
+            Victory();
         }
     }
 }
