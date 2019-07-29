@@ -37,7 +37,7 @@
       <Button fx:id="playButton" alignment="CENTER" mnemonicParsing="false" onAction="#startSingle" prefHeight="39.0" prefWidth="257.0" text="Lonely Player" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
       <AnchorPane prefHeight="264.0" prefWidth="327.0">
          <children>
-            <Text layoutX="93.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SUPER MANCALA">
+            <Text fx:id="superMancala" layoutX="10.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SUPER MANCALA">
                <font>
                   <Font name="ROGFonts-Regular" size="46.0" />
                </font>

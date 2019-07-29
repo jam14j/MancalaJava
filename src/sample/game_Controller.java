@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
@@ -24,12 +25,9 @@ public class game_Controller {
     @FXML private AnchorPane basePane;
     @FXML
     private Label player_settings, turn_label, p1_mancala_label, p2_mancala_label, winner_label;
-    @FXML
-    private Ellipse p1_mancala, p2_mancala;
-    @FXML
-    private List<Button> pile_list_button;
-    @FXML
-    private List<Ellipse> pile_list_ellipse;
+    @FXML private Ellipse p1_mancala, p2_mancala;
+    @FXML private List<Button> pile_list_button;
+    @FXML private List<Ellipse> pile_list_ellipse;
     private boolean whosTurn = true;
     private boolean players, cputurn;
     private String player1turn, player2turn, yourturn, yourturnagain, p1win, p2win, draw, youwin, youlose;
@@ -41,6 +39,8 @@ public class game_Controller {
         }
         p1_mancala_label.setFont(Font.loadFont(Main.FONT, 24));
         p2_mancala_label.setFont(Font.loadFont(Main.FONT, 24));
+        winner_label.setFont(Font.loadFont(Main.FONT, 50));
+        winner_label.setTextFill(Color.GOLD);
         //set background
         String colorString = SharedPreferences.getColor().toString();
         colorString = "#"+colorString.substring(2);
@@ -312,18 +312,16 @@ public class game_Controller {
                         Victory();
                     }
                     if(cputurn) {
-                        System.out.println("About to fire");
                         PauseTransition pt_pc = new PauseTransition(Duration.seconds((amt+1)/2.0));
                         pt_pc.setOnFinished(event -> choiceByPC());
                         pt_pc.play();
-                        //choiceByPC();
-                        System.out.println("After fire");
                     }
                     else
                         cputurn = true;
                 }
             });
         }
+        //This is the old logic
         /*for (int i = 0; i < 12; i++) {
             Button button = pile_list_button.get(i);
             button.setStyle("-fx-background-color: transparent;");
@@ -715,7 +713,6 @@ public class game_Controller {
                     check_win = true;
                     for (int f = 6; f < 12; f++) {
                         Button thisButtons = pile_list_button.get(f);
-//                        System.out.println(thisButtons.getText().compareTo("0")!=0);
                         if (thisButtons.getText().compareTo("0") != 0)
                             check_win = false;
                     }
@@ -733,16 +730,18 @@ public class game_Controller {
     private void playSteal() {
         String filename;
         filename = "sounds/yoink.wav";
-        Media sound = new Media(new File(filename).toURI().toString());
-        MediaPlayer mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.seek(Duration.millis(0));
-        mediaPlayer.play();
-        mediaPlayer.setOnEndOfMedia(new Runnable() {
-            @Override
-            public void run() {
-                mediaPlayer.stop();
-            }
-        });
+        if(!SharedPreferences.isMute()) {
+            Media sound = new Media(new File(filename).toURI().toString());
+            MediaPlayer mediaPlayer = new MediaPlayer(sound);
+            mediaPlayer.seek(Duration.millis(0));
+            mediaPlayer.play();
+            mediaPlayer.setOnEndOfMedia(new Runnable() {
+                @Override
+                public void run() {
+                    mediaPlayer.stop();
+                }
+            });
+        }
     }
 
     private void endGame() {
@@ -839,43 +838,41 @@ public class game_Controller {
 
     public void playStart() {
         String filename;
-//        if (Spanish)
-//        {
-//            filename = "sounds/are_you_ready_juan.wav";
-//        }
-//        else if(English)
-//        {
+        if (SharedPreferences.getLanguage().equals("Espanol"))
+            filename = "sounds/are_you_ready_juan.wav";
+        else if(SharedPreferences.getLanguage().equals("English"))
             filename = "sounds/are_you_ready_grant.wav";
-//        }
-//        else if(French)
-//        {
-//            filename = "";
-//        }
+        else //French
+            filename = "sounds/are_you_ready_andrea.wav";
 
-        Media sound = new Media(new File(filename).toURI().toString());
-        MediaPlayer mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.seek(Duration.millis(0));
-        mediaPlayer.play();
+        if(!SharedPreferences.isMute()) {
+            Media sound = new Media(new File(filename).toURI().toString());
+            MediaPlayer mediaPlayer = new MediaPlayer(sound);
+            mediaPlayer.seek(Duration.millis(0));
+            mediaPlayer.play();
+        }
     }
 
     public void playGoAgain(int amt) {
         String filename;
         if (!players && whosTurn) {
-//            if(english)
+            if(SharedPreferences.getLanguage().equals("English"))
             filename = "sounds/haha_grant.wav";
-//            else if (spanish)
-//                filename = "sounds/haha_juan.wav";
-//            else if (french)
-//                filename = "haha_french.wav";
-        } else {
-            filename = "sounds/go_again.wav";
+            else if(SharedPreferences.getLanguage().equals("Espanol"))
+                filename = "sounds/haha_juan.wav";
+            else //French
+                filename = "sounds/haha_andrea.wav";
         }
-        Media sound = new Media(new File(filename).toURI().toString());
-        MediaPlayer mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.seek(Duration.millis(0));
-        PauseTransition pt_sound = new PauseTransition(Duration.seconds(amt/2.0));
-        pt_sound.setOnFinished(event -> mediaPlayer.play());
-        pt_sound.play();
+        else
+            filename = "sounds/go_again.wav";
+        if(!SharedPreferences.isMute()) {
+            Media sound = new Media(new File(filename).toURI().toString());
+            MediaPlayer mediaPlayer = new MediaPlayer(sound);
+            mediaPlayer.seek(Duration.millis(0));
+            PauseTransition pt_sound = new PauseTransition(Duration.seconds(amt / 2.0));
+            pt_sound.setOnFinished(event -> mediaPlayer.play());
+            pt_sound.play();
+        }
     }
 
     public void playVictory() {
@@ -886,20 +883,22 @@ public class game_Controller {
         if (!players) {
             if (playerOneScore > playerTwoScore) {
                 //player one wins
-                //if (english)
-                filename = "sounds/beaten_by_computer_grant.wav";
-                //else if (spanish)
-                //file name = "sounds/beaten_by_computer_juan.wav";
-                //else if (french)
-                //file name = "sounds/beaten_by_computer_french.wav";
+                if (SharedPreferences.getLanguage().equals("English"))
+                    filename = "sounds/beaten_by_computer_grant.wav";
+                else if (SharedPreferences.getLanguage().equals("Espanol"))
+                    filename = "sounds/beaten_by_computer_juan.wav";
+                else //French
+                    filename = "sounds/beaten_by_computer_andrea.wav";
             } else
                 filename = "sounds/ff7.wav";
         } else
             filename = "sounds/ff7.wav";
-        Media sound = new Media(new File(filename).toURI().toString());
-        MediaPlayer mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.seek(Duration.millis(0));
-        mediaPlayer.play();
+        if(!SharedPreferences.isMute()) {
+            Media sound = new Media(new File(filename).toURI().toString());
+            MediaPlayer mediaPlayer = new MediaPlayer(sound);
+            mediaPlayer.seek(Duration.millis(0));
+            mediaPlayer.play();
+        }
     }
 
     public void choiceByPC() {

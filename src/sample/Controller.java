@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.text.Font;
@@ -19,6 +20,7 @@ import java.util.ResourceBundle;
 public class Controller implements Initializable {
     @FXML private GridPane basePane;
     @FXML private Button playButton, versusButton, settingsButton, rulesButton;
+    @FXML private Text superMancala;
 
     @FXML public void startSingle(ActionEvent event) {
         try {
@@ -84,7 +86,7 @@ public class Controller implements Initializable {
         colorString = "#"+colorString.substring(2);
         basePane.setStyle("-fx-background-color: "+colorString);
         //Set font
-        //playButton.setFont(Main.font12);
+		superMancala.setFont(Font.loadFont(Main.FONT, 46));
 		playButton.setFont(Font.loadFont(Main.FONT, 12));
 		versusButton.setFont(Font.loadFont(Main.FONT, 12));
 		rulesButton.setFont(Font.loadFont(Main.FONT, 12));
