@@ -16,7 +16,11 @@ public class Controller {
 	@FXML public void startSingle(ActionEvent event) {
         try {
             Stage mStage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("game.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("game.fxml"));
+            Parent root = loader.load();
+            game_Controller gc = loader.<game_Controller>getController();
+            gc.InitializeSingle();
+
             mStage.setTitle("Super Mancala");
             mStage.setScene(new Scene(root, 600, 440));
             mStage.show();
@@ -30,10 +34,10 @@ public class Controller {
         try {
             Stage mStage = new Stage();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("game.fxml"));
-            Parent root = (Parent) loader.load();
+            Parent root = loader.load();
             game_Controller gc = loader.<game_Controller>getController();
             gc.setSettings();
-            gc.Initialize();
+            gc.InitializeVersus();
 
             mStage.setTitle("Super Mancala");
             mStage.setScene(new Scene(root, 600, 440));
