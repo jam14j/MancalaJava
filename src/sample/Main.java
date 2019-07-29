@@ -4,10 +4,12 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 
 public class Main extends Application {
+    public static final String FONT = "file:ROGFonts-Regular.otf";
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -15,9 +17,7 @@ public class Main extends Application {
         primaryStage.setTitle("Super Mancala");
         primaryStage.setScene(new Scene(root, 600, 440));
         primaryStage.show();
-
     }
-
 
     public static void main(String[] args) {
         launch(args);

@@ -6,46 +6,36 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <?import javafx.collections.FXCollections?>
-<AnchorPane prefHeight="440.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.settings_Controller">
+
+<AnchorPane fx:id="basePane" prefHeight="440.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.settings_Controller">
    <children>
-      <Text layoutX="32.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Settings">
+      <Text fx:id="settingsLabel" layoutX="32.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Settings">
          <font>
             <Font name="ROGFonts-Regular" size="42.0" />
          </font>
       </Text>
-      <Text layoutX="102.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Language:">
+      <Text fx:id="languageLabel" layoutX="102.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Language:" textAlignment="RIGHT">
          <font>
             <Font name="ROGFonts-Regular" size="25.0" />
          </font>
       </Text>
-      <Text layoutX="56.0" layoutY="238.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Background:">
+      <Text fx:id="backgroundLabel" layoutX="56.0" layoutY="238.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Background:" textAlignment="RIGHT">
          <font>
             <Font name="ROGFonts-Regular" size="25.0" />
          </font>
       </Text>
-      <ToggleButton layoutX="214.0" layoutY="296.0" mnemonicParsing="false" text="Mute Sound">
+      <ToggleButton fx:id="muteButton" layoutX="214.0" layoutY="296.0" mnemonicParsing="false" text="Mute Sound">
          <font>
             <Font name="ROGFonts-Regular" size="18.0" />
          </font>
       </ToggleButton>
-      <Button layoutX="417.0" layoutY="375.0" mnemonicParsing="false" onAction="#backToMain" text="Main menu">
+      <Button fx:id="backButton" layoutX="227.0" layoutY="373.0" mnemonicParsing="false" onAction="#backToMain" text="Main menu">
          <font>
             <Font name="ROGFonts-Regular" size="18.0" />
          </font>
       </Button>
-      <ComboBox layoutX="355.0" layoutY="122.0" prefWidth="150.0">
-           <items>
-               <String fx:value="English"/>
-               <String fx:value="Spanish"/>
-           </items>
-      </ComboBox>
-      <ComboBox layoutX="355.0" layoutY="207.0" prefWidth="150.0">
-         <items>
-            <String fx:value="English"/>
-            <String fx:value="Spanish"/>
-         </items>
-      </ComboBox>
+      <ComboBox fx:id="languageBox" layoutX="355.0" layoutY="122.0" prefWidth="150.0" />
+      <ColorPicker fx:id="bColorPicker" layoutX="356.0" layoutY="207.0" prefHeight="39.0" prefWidth="150.0" />
    </children>
 </AnchorPane>

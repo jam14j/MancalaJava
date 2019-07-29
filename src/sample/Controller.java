@@ -3,17 +3,24 @@ package sample;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javafx.scene.control.Button;
+import javafx.scene.text.Font;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
+public class Controller implements Initializable {
+    @FXML private GridPane basePane;
+    @FXML private Button playButton, versusButton, settingsButton, rulesButton;
 
-public class Controller {
-
-	@FXML public void startSingle(ActionEvent event) {
+    @FXML public void startSingle(ActionEvent event) {
         try {
             Stage mStage = new Stage();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("game.fxml"));
@@ -69,4 +76,38 @@ public class Controller {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        //Set background color
+        String colorString = SharedPreferences.getColor().toString();
+        colorString = "#"+colorString.substring(2);
+        basePane.setStyle("-fx-background-color: "+colorString);
+        //Set font
+        //playButton.setFont(Main.font12);
+		playButton.setFont(Font.loadFont(Main.FONT, 12));
+		versusButton.setFont(Font.loadFont(Main.FONT, 12));
+		rulesButton.setFont(Font.loadFont(Main.FONT, 12));
+		settingsButton.setFont(Font.loadFont(Main.FONT, 12));
+
+		if(SharedPreferences.getLanguage().equals("English")) {
+			playButton.setText("Lonely Player");
+			versusButton.setText("Versus");
+			rulesButton.setText("Rules");
+			settingsButton.setText("Settings");
+		}
+		else if(SharedPreferences.getLanguage().equals("Espanol")) {
+			playButton.setText("Jugador Solitario");
+			versusButton.setText("Versus");
+			rulesButton.setText("Reglas");
+			settingsButton.setText("Preferencias");
+		}
+		else { //French
+			playButton.setText("joueur solitaire");
+			versusButton.setText("Contre");
+			rulesButton.setText("Regles");
+			settingsButton.setText("Reglages");
+		}
+    }
+
 }

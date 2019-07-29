@@ -1,13 +1,16 @@
 package sample;
 
+import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.shape.Ellipse;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 import java.io.File;
@@ -18,6 +21,7 @@ import javax.sound.sampled.*;
 
 
 public class game_Controller {
+    @FXML private AnchorPane basePane;
     @FXML
     private Label player_settings, turn_label, p1_mancala_label, p2_mancala_label, winner_label;
     @FXML
@@ -28,9 +32,75 @@ public class game_Controller {
     private List<Ellipse> pile_list_ellipse;
     private boolean whosTurn = true;
     private boolean players;
+    private String player1turn, player2turn, yourturn, yourturnagain, p1win, p2win, draw, youwin, youlose;
+
+    private void setLook(boolean isSinglePlayer) {
+        //set button font
+        for(Button b : pile_list_button) {
+            b.setFont(Font.loadFont(Main.FONT, 16));
+        }
+        p1_mancala_label.setFont(Font.loadFont(Main.FONT, 24));
+        p2_mancala_label.setFont(Font.loadFont(Main.FONT, 24));
+        //set background
+        String colorString = SharedPreferences.getColor().toString();
+        colorString = "#"+colorString.substring(2);
+        basePane.setStyle("-fx-background-color: "+colorString);
+        //set language
+        if(isSinglePlayer) {
+            if(SharedPreferences.getLanguage().equals("English"))
+                player_settings.setText("Single Player");
+            else if(SharedPreferences.getLanguage().equals("Espanol"))
+                player_settings.setText("Un Jugador");
+            else //French
+                player_settings.setText("joueur unique");
+        }
+        else { //versus
+            if(SharedPreferences.getLanguage().equals("English"))
+                player_settings.setText("Versus");
+            else if(SharedPreferences.getLanguage().equals("Espanol"))
+                player_settings.setText("Versus");
+            else //French
+                player_settings.setText("Contre");
+        }
+        if(SharedPreferences.getLanguage().equals("English")) {
+            player1turn = "Player 1's turn!";
+            player2turn = "Player 2's turn!";
+            yourturn = "Your turn!";
+            yourturnagain = "Your turn again!!!";
+            p1win = "Player 1 wins!";
+            p2win = "Player 2 wins!";
+            draw = "Draw!!!";
+            youwin = "You win!!!";
+            youlose = "You lose!";
+        }
+        else if(SharedPreferences.getLanguage().equals("Espanol")) {
+            player1turn = "Turno del jugador 1";
+            player2turn = "Turno del jugador 2";
+            yourturn = "Tu turno!";
+            yourturnagain = "Tu turno otra vez!!!";
+            p1win = "Gana el jugador 1";
+            p2win = "Gana el jugador 2";
+            draw = "Empate!!!";
+            youwin = "Ganaste!!!";
+            youlose = "Perdiste!";
+        }
+        else { //French
+            player1turn = "Tour du joueur 1";
+            player2turn = "Tour du joueur 2";
+            yourturn = "A ton tour!";
+            yourturnagain = "ton tour encore!!!";
+            p1win = "joueur 1 gagne";
+            p2win = "joueur 2 gagne";
+            draw = "Match nul!!!";
+            youwin = "Gagne!!!";
+            youlose = "Perdre!";
+        }
+
+    }
 
 
     public void InitializeSingle() {
+        setLook(true);
         players = false;
         playStart();
         for (int i = 0; i < 12; i++) {
@@ -172,15 +242,15 @@ public class game_Controller {
                     if (whichButton == 6 && whosTurn && forGoAgain) {
                         takeTurn(players);
                         ending = "p1_mancala";
-                        turn_label.setText("Player 1's Turn Again!!!");
-                        playGoAgain();
+                        turn_label.setText(player1turn);
+                        playGoAgain(amt);
                         choiceByPC();
 
                     } else if (whichButton == 0 && !whosTurn && forGoAgain) {
                         takeTurn(players);
                         ending = "p2 mancala";
-                        turn_label.setText("Your Turn Again!!!");
-                        playGoAgain();
+                        turn_label.setText(yourturnagain);
+                        playGoAgain(amt);
                     } else {
                         whosTurn = !whosTurn;
                         takeTurn(players);
@@ -220,6 +290,7 @@ public class game_Controller {
     }
 
     public void InitializeVersus() {
+        setLook(false);
         players = true;
         playStart();
         for (int i = 0; i < 12; i++) {
@@ -272,6 +343,7 @@ public class game_Controller {
                     }
                     boolean forGoAgain = true;
                     for (int k = amt; k > 0; k--) {
+
                         forGoAgain = true;
                         if (whichButton == 5) {
                             whichButton++;
@@ -280,48 +352,69 @@ public class game_Controller {
                             {
                                 //extra k-- because one goes in mancala
                                 k--;
+                                PauseTransition ptm = new PauseTransition(Duration.seconds((amt-k)/2.0));
                                 int newValue = Integer.parseInt(p1_mancala_label.getText());
                                 newValue++;
-                                p1_mancala_label.setText(String.valueOf(newValue));
+                                int finalValueM = newValue;
+                                ptm.setOnFinished(event -> p1_mancala_label.setText(String.valueOf(finalValueM)));
+                                ptm.play();
 
                                 if (k > 0) {
                                     forGoAgain = false;
+                                    PauseTransition pt = new PauseTransition(Duration.seconds((amt-k+1)/2.0));
                                     newValue = Integer.parseInt(nextButton.getText());
                                     newValue++;
-                                    nextButton.setText(String.valueOf(newValue));
+                                    int finalValue = newValue;
+                                    pt.setOnFinished(event ->nextButton.setText(String.valueOf(finalValue)));
+                                    pt.play();
                                 }
                             } else {//else dont put anything into p1_mancala
+                                PauseTransition pt = new PauseTransition(Duration.seconds((amt-k+1)/2.0));
                                 int newValue = Integer.parseInt(nextButton.getText());
                                 newValue++;
-                                nextButton.setText(String.valueOf(newValue));
+                                int finalValue = newValue;
+                                pt.setOnFinished(event ->nextButton.setText(String.valueOf(finalValue)));
+                                pt.play();
                             }
                         } else if (whichButton == 11) {
                             whichButton = 0;
                             Button nextButton = pile_list_button.get(0);
                             if (whosTurn)//if player one dont add to p2_mancala
                             {
+                                PauseTransition pt = new PauseTransition(Duration.seconds((amt-k+1)/2.0));
                                 int newValue = Integer.parseInt(nextButton.getText());
                                 newValue++;
-                                nextButton.setText(String.valueOf(newValue));
+                                int finalValue = newValue;
+                                pt.setOnFinished(event ->nextButton.setText(String.valueOf(finalValue)));
+                                pt.play();
                             } else {//add to p2 mancala cuz its p2's turn
                                 k--;
+                                PauseTransition ptm = new PauseTransition(Duration.seconds((amt-k)/2.0));
                                 int newValue = Integer.parseInt(p2_mancala_label.getText());
                                 newValue++;
-                                p2_mancala_label.setText(String.valueOf(newValue));
+                                int finalValueM = newValue;
+                                ptm.setOnFinished(event -> p2_mancala_label.setText(String.valueOf(finalValueM)));
+                                ptm.play();
 
                                 if (k > 0) {
+                                    PauseTransition pt = new PauseTransition(Duration.seconds((amt-k+1)/2.0));
                                     newValue = Integer.parseInt(nextButton.getText());
                                     newValue++;
-                                    nextButton.setText(String.valueOf(newValue));
+                                    int finalValue = newValue;
+                                    pt.setOnFinished(event ->nextButton.setText(String.valueOf(finalValue)));
+                                    pt.play();
                                     forGoAgain = false;
                                 }
                             }
                         } else {
                             whichButton++;
                             Button nextButton = pile_list_button.get(whichButton);
+                            PauseTransition pt = new PauseTransition(Duration.seconds((amt-k+1)/2.0));
                             int newValue = Integer.parseInt(nextButton.getText());
                             newValue++;
-                            nextButton.setText(String.valueOf(newValue));
+                            int finalValue = newValue;
+                            pt.setOnFinished(event ->nextButton.setText(String.valueOf(finalValue)));
+                            pt.play();
                         }
 
                         if (whichButton == 12) {
@@ -361,19 +454,25 @@ public class game_Controller {
 
                     String ending;
                     if (whichButton == 6 && whosTurn && forGoAgain) {
-                        takeTurn(players);
+                        PauseTransition pt_turn = new PauseTransition(Duration.seconds(amt/2.0));
+                        pt_turn.setOnFinished(event -> takeTurn(players));
+                        pt_turn.play();
                         ending = "p1_mancala";
-                        turn_label.setText("Player 1's Turn Again!!!");
-                        playGoAgain();
+                        turn_label.setText(player1turn);
+                        playGoAgain(amt);
 
                     } else if (whichButton == 0 && !whosTurn && forGoAgain) {
-                        takeTurn(players);
+                        PauseTransition pt_turn = new PauseTransition(Duration.seconds(amt/2.0));
+                        pt_turn.setOnFinished(event -> takeTurn(players));
+                        pt_turn.play();
                         ending = "p2 mancala";
-                        turn_label.setText("Player 2's Turn Again!!!");
-                        playGoAgain();
+                        turn_label.setText(player2turn);
+                        playGoAgain(amt);
                     } else {
                         whosTurn = !whosTurn;
-                        takeTurn(players);
+                        PauseTransition pt_turn = new PauseTransition(Duration.seconds(amt/2.0));
+                        pt_turn.setOnFinished(event -> takeTurn(players));
+                        pt_turn.play();
                         ending = String.valueOf(++whichButton);
                     }
                     System.out.printf("Starting pile: %s \tEnding pile : %s " +
@@ -448,7 +547,7 @@ public class game_Controller {
 
     public void takeTurn(boolean players) {
         if (whosTurn) {
-            turn_label.setText("Player 1's Turn!");
+            turn_label.setText(player1turn);
             for (int i = 0; i < 6; i++) {
                 pile_list_button.get(i).setDisable(false);
                 if (pile_list_button.get(i).getText().compareTo("0") == 0)
@@ -461,9 +560,9 @@ public class game_Controller {
             }
         } else {
             if (players)
-                turn_label.setText("Player 2's Turn!");
+                turn_label.setText(player2turn);
             else
-                turn_label.setText("Your Turn!");
+                turn_label.setText(yourturn);
 
             for (int i = 0; i < 6; i++) {
                 pile_list_button.get(i).setDisable(true);
@@ -489,26 +588,26 @@ public class game_Controller {
 
         if (players) {
             if (playerOneScore < playerTwoScore) {//player one lost
-                winner_label.setText("PLayer 2 WINS!");
+                winner_label.setText(p2win);
                 winner_label.setVisible(true);
             } else if (playerOneScore > playerTwoScore) {
                 //player one wins
-                winner_label.setText("PLayer 1 WINS!");
+                winner_label.setText(p1win);
                 winner_label.setVisible(true);
             } else {
-                winner_label.setText("Its a DRAW!");
+                winner_label.setText(draw);
                 winner_label.setVisible(true);
             }
         } else {
             if (playerOneScore < playerTwoScore) {//player one lost
-                winner_label.setText("You WON!");
+                winner_label.setText(youwin);
                 winner_label.setVisible(true);
             } else if (playerOneScore > playerTwoScore) {
                 //player one wins
-                winner_label.setText("You LOST!");
+                winner_label.setText(youlose);
                 winner_label.setVisible(true);
             } else {
-                winner_label.setText("Its a DRAW!");
+                winner_label.setText(draw);
                 winner_label.setVisible(true);
             }
         }
@@ -535,7 +634,7 @@ public class game_Controller {
         mediaPlayer.play();
     }
 
-    public void playGoAgain() {
+    public void playGoAgain(int amt) {
         String filename;
         if (!players && whosTurn) {
 //            if(english)
@@ -550,7 +649,9 @@ public class game_Controller {
         Media sound = new Media(new File(filename).toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(sound);
         mediaPlayer.seek(Duration.millis(0));
-        mediaPlayer.play();
+        PauseTransition pt_sound = new PauseTransition(Duration.seconds(amt/2.0));
+        pt_sound.setOnFinished(event -> mediaPlayer.play());
+        pt_sound.play();
     }
 
     public void playVictory() {

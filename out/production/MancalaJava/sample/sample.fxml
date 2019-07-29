@@ -10,7 +10,7 @@
 <?import javafx.scene.control.Label?>
 
 
-<GridPane alignment="center" hgap="10" prefHeight="776.0" prefWidth="1054.0" vgap="10" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="sample.Controller">
+<GridPane fx:id="basePane" alignment="center" hgap="10" prefHeight="776.0" prefWidth="1054.0" vgap="10" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="sample.Controller">
    <columnConstraints>
       <ColumnConstraints />
    </columnConstraints>
@@ -34,14 +34,18 @@
       <RowConstraints />
    </rowConstraints>
    <children>
-      <Button id="playButton" alignment="CENTER" mnemonicParsing="false" onAction="#startSingle" prefHeight="39.0" prefWidth="257.0" text="Lonely Player" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+      <Button fx:id="playButton" alignment="CENTER" mnemonicParsing="false" onAction="#startSingle" prefHeight="39.0" prefWidth="257.0" text="Lonely Player" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
       <AnchorPane prefHeight="264.0" prefWidth="327.0">
          <children>
-            <Text layoutX="93.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SUPER MANCALA" />
+            <Text layoutX="93.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SUPER MANCALA">
+               <font>
+                  <Font name="ROGFonts-Regular" size="46.0" />
+               </font>
+            </Text>
          </children>
       </AnchorPane>
-      <Button alignment="CENTER" mnemonicParsing="false" onAction="#showRules" prefHeight="39.0" prefWidth="255.0" text="Rules" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-      <Button alignment="CENTER" mnemonicParsing="false" prefHeight="39.0" prefWidth="256.0" text="Settings" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
-      <Button alignment="CENTER" mnemonicParsing="false" onAction="#startVersus" prefHeight="39.0" prefWidth="254.0" text="Versus" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+      <Button fx:id="rulesButton" alignment="CENTER" mnemonicParsing="false" onAction="#showRules" prefHeight="39.0" prefWidth="255.0" text="Rules" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+      <Button fx:id="settingsButton" alignment="CENTER" mnemonicParsing="false" onAction="#showSettings" prefHeight="39.0" prefWidth="256.0" text="Settings" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+      <Button fx:id="versusButton" alignment="CENTER" mnemonicParsing="false" onAction="#startVersus" prefHeight="39.0" prefWidth="254.0" text="Versus" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
    </children>
 </GridPane>
