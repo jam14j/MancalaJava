@@ -1,0 +1,31 @@
+﻿Para 2 jugadores - Para edades entre 7 y adultos
+
+Mancala es una antigua familia de juegos de mesa, y hay muchas variantes. Esta es una version del juego base, tambien conocido como Macala de dos-rangos o Kalah.
+
+Preparacion:
+  El tablero de Mancala contiene dos filas de seis hoyos cada una. En cada hoyo hay cuatro piezas. El color es irrelevante. Cada jugador tiene una meta (tambien llamada "Mancala"), a su derecha.
+
+Objetivo:
+  Tener mas piezas que tu oponente al final del juego.
+
+Juego:
+
+1. El juego comienza con un jugador tomando todas las piezas de cualquiera de los hoyos en su lado.
+
+2. Moviendose en sentido antihorario, el jugador deposita una pieza en cada hoyo hasta que se quede sin piezas.
+
+3. Si pasas sobre tu propio Mancala, deposita una pieza alli. Si pasas sobre el Mancala de tu oponente saltalo y sigue con el siguiente hoyo.
+
+4. Si tu ultima pieza termina en tu Mancala, toma otro turno.
+
+5. Si la ultima pieza termina un hoyo vacio en tu lado del tablero, captura esa pieza y todas las piezas en el hoyo en el lado opuesto del tablero.
+
+6. Simpre coloca todas tus piezas capturadas en tu Mancala.
+
+7. El juego termina cuando los seis hoyos de cualquier lado esten vacios.
+
+8. El jugador que todavia tenga piezas en su lado del tablero captura todas esas piezas.
+
+9. Cuenta todas las piezas en cada Mancala. El ganador es el jugador con mas piezas.
+
+Fuente (En ingles): https://endlessgames.com/wp-content/uploads/Mancala_Instructions.pdf
