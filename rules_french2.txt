@@ -1,0 +1,53 @@
+Pour 2 joueurs - 7 ans a l'adulte
+
+
+
+Mancala est une ancienne famille de jeux de societe et ses variantes sont nombreuses. Ceci est une version du jeu de base, connu sous le nom de Mancala a deux rangs et egalement connu sous le nom de Kalah.
+
+
+Configuration:
+
+  Le tableau de Mancala est compose de deux rangees de six poches (appelees aussi "trous" ou "fosses") chacune. Quatre pieces sont placees dans chacune des 12 poches. La couleur des pieces est sans importance. Chaque joueur a un "but" (egalement appele "Mancala") a son cote droit du tableau Mancala.
+
+
+
+Objectif:
+
+  Ramasser le plus de pieces d'ici la fin de la partie.
+
+
+Jeu:
+
+
+1. Le jeu commence avec un joueur qui ramasse toutes les pieces dans l'une des poches de son cote.
+
+
+
+2. En tournant dans le sens contraire des aiguilles d'une montre, le joueur depose une des pierres dans chaque poche jusqu'a ce que les pierres soient epuisees.
+
+
+
+3. Si vous rencontrez votre propre Mancala (but), deposez-en un morceau. Si vous rencontrez la Mancala de votre adversaire, sautez-la et continuez de passer a la prochaine poche.
+
+
+4. Si le dernier morceau que vous deposez est dans votre propre Mancala, vous prenez un autre tour.
+
+
+5. Si la derniere piece que vous deposez est dans une poche vide de votre cote, vous capturez cette piece et toutes les pieces de la poche directement opposees.
+
+
+
+6. Placez toujours toutes les pieces capturees dans votre Mancala (but).
+
+
+
+7. Le jeu se termine lorsque les six poches d'un cote du plateau de Mancala sont vides.
+
+
+8. Le joueur qui a encore des pions de son cote du tableau a la fin du jeu capture tous ces pions.
+
+
+9. Compter toutes les pieces de chaque mancala. Le gagnant est le joueur avec le plus de pieces.
+
+
+Source (en anglais): https://endlessgames.com/wp-content/uploads/Mancala_Instructions.pdf

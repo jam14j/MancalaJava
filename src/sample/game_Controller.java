@@ -39,7 +39,7 @@ public class game_Controller {
         }
         p1_mancala_label.setFont(Font.loadFont(Main.FONT, 24));
         p2_mancala_label.setFont(Font.loadFont(Main.FONT, 24));
-        winner_label.setFont(Font.loadFont(Main.FONT, 50));
+        winner_label.setFont(Font.loadFont(Main.FONT, 40));
         winner_label.setTextFill(Color.GOLD);
         //set background
         String colorString = SharedPreferences.getColor().toString();
@@ -233,33 +233,42 @@ public class game_Controller {
                     }
 
                     //steal implementation
-                    int under12 = whichButton + 1;
-                    Button forSteal = pile_list_button.get(whichButton);
+                    PauseTransition pt_steal = new PauseTransition(Duration.seconds((amt+1)/2.0));
+                    final int fwhichButton = whichButton;
+                    final boolean fForGoAgain = forGoAgain;
+                    pt_steal.setOnFinished(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent actionEvent) {
+                            int under12 = fwhichButton + 1;
+                            System.out.println("fwhichButton: "+fwhichButton);
+                            Button forSteal = pile_list_button.get(fwhichButton);
+                            System.out.printf("STEALING: Starting pile: %s \tEnding pile : %d " +
+                                    "\t Pebbles: %s\n", button.getId(), fwhichButton, forSteal.getText());
+                            if (forSteal.getText().compareTo("1") == 0 &&
+                                    (under12 > 0 && under12 < 7) && !whosTurn && fForGoAgain) {
+                                Button across = pile_list_button.get(11 - fwhichButton);
+                                int tempValue = Integer.parseInt(across.getText());
+                                int addTo = Integer.parseInt(p1_mancala_label.getText());
+                                int sum = addTo + tempValue;
+                                p1_mancala_label.setText(String.valueOf(sum));
+                                across.setText("0");
+                                if(tempValue != 0)
+                                    playSteal();
 
-                    System.out.printf("STEALING: Starting pile: %s \tEnding pile : %d " +
-                            "\t Pebbles: %d\n", button.getId(), under12, amt);
-                    if (forSteal.getText().compareTo("1") == 0 &&
-                            (under12 > 0 && under12 < 7) && whosTurn) {
-                        Button across = pile_list_button.get(11 - whichButton);
-                        int tempValue = Integer.parseInt(across.getText());
-                        int addTo = Integer.parseInt(p1_mancala_label.getText());
-                        int sum = addTo + tempValue;
-                        p1_mancala_label.setText(String.valueOf(sum));
-                        if (across.getText().compareTo("0") != 0)
-                            playSteal();
-                        across.setText("0");
-
-                    } else if (forSteal.getText().compareTo("1") == 0 &&
-                            (under12 > 6 && under12 < 13) && !whosTurn) {
-                        Button across = pile_list_button.get(11 - whichButton);
-                        int tempValue = Integer.parseInt(across.getText());
-                        int addTo = Integer.parseInt(p2_mancala_label.getText());
-                        int sum = addTo + tempValue;
-                        p2_mancala_label.setText(String.valueOf(sum));
-                        if (across.getText().compareTo("0") != 0)
-                            playSteal();
-                        across.setText("0");
-                    }
+                            } else if (forSteal.getText().compareTo("1") == 0 &&
+                                    (under12 > 6 && under12 < 13) && whosTurn && fForGoAgain) {
+                                Button across = pile_list_button.get(11 - fwhichButton);
+                                int tempValue = Integer.parseInt(across.getText());
+                                int addTo = Integer.parseInt(p2_mancala_label.getText());
+                                int sum = addTo + tempValue;
+                                p2_mancala_label.setText(String.valueOf(sum));
+                                across.setText("0");
+                                if(tempValue != 0)
+                                    playSteal();
+                            }
+                        }
+                    });
+                    pt_steal.play();
 
 
                     String ending;
@@ -270,7 +279,6 @@ public class game_Controller {
                         ending = "p1_mancala";
                         turn_label.setText(player1turn);
                         playGoAgain(amt);
-                        cputurn = true;
 
                     } else if (whichButton == 0 && !whosTurn && forGoAgain) {
                         PauseTransition pt_turn = new PauseTransition(Duration.seconds(amt/2.0));
@@ -288,226 +296,53 @@ public class game_Controller {
                     }
                     System.out.printf("Starting pile: %s \tEnding pile : %s " +
                             "\t Pebbles: %d\n", button.getId(), ending, amt);
-                    Boolean check_win = true;
-                    for (int f = 0; f < 6; f++) {
-                        Button thisButtons = pile_list_button.get(f);
-//                        System.out.println(thisButtons.getText().compareTo("0")!=0);
-                        if (thisButtons.getText().compareTo("0") != 0)
-                            check_win = false;
-                    }
-                    if (check_win) {
-                        endGame();
-                        Victory();
+                    //Endgame check needs a delay, otherwise it checks during animation. Causing early endgame
+                    PauseTransition pt_check = new PauseTransition(Duration.seconds((amt+1)/2.0));
+                    pt_check.setOnFinished(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent actionEvent) {
+                            boolean check_win = true;
+                            for (int f = 0; f < 6; f++) {
+                                Button thisButtons = pile_list_button.get(f);
+                                if (thisButtons.getText().compareTo("0") != 0)
+                                    check_win = false;
+                            }
+                            if (check_win) {
+                                endGame();
+                                Victory(amt);
 
-                    }
-                    check_win = true;
-                    for (int f = 6; f < 12; f++) {
-                        Button thisButtons = pile_list_button.get(f);
-//                        System.out.println(thisButtons.getText().compareTo("0")!=0);
-                        if (thisButtons.getText().compareTo("0") != 0)
-                            check_win = false;
-                    }
-                    if (check_win) {
-                        endGame();
-                        Victory();
-                    }
+                            }
+                            check_win = true;
+                            for (int f = 6; f < 12; f++) {
+                                Button thisButtons = pile_list_button.get(f);
+                                if (thisButtons.getText().compareTo("0") != 0)
+                                    check_win = false;
+                            }
+                            if (check_win) {
+                                endGame();
+                                Victory(amt);
+                            }
+                        }
+                    });
+                    pt_check.play();
+                    //CPU play
+                    final boolean ffForGoAgain = forGoAgain;
                     if(cputurn) {
-                        PauseTransition pt_pc = new PauseTransition(Duration.seconds((amt+1)/2.0));
-                        pt_pc.setOnFinished(event -> choiceByPC());
+                        PauseTransition pt_pc = new PauseTransition(Duration.seconds((amt+2)/2.0));
+                        pt_pc.setOnFinished(event -> choiceByPC(amt, ffForGoAgain));
                         pt_pc.play();
                     }
-                    else
-                        cputurn = true;
+                    cputurn = true;
                 }
             });
         }
-        //This is the old logic
-        /*for (int i = 0; i < 12; i++) {
-            Button button = pile_list_button.get(i);
-            button.setStyle("-fx-background-color: transparent;");
-            if (whosTurn)
-                choiceByPC();
-            button.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent e) {
-                    int amt = Integer.parseInt(button.getText());
-                    button.setText("0");
-                    int whichButton = -1;
-                    switch (button.getId()) {
-                        case "pile_button1":
-                            whichButton = 0;
-                            break;
-                        case "pile_button2":
-                            whichButton = 1;
-                            break;
-                        case "pile_button3":
-                            whichButton = 2;
-                            break;
-                        case "pile_button4":
-                            whichButton = 3;
-                            break;
-                        case "pile_button5":
-                            whichButton = 4;
-                            break;
-                        case "pile_button6":
-                            whichButton = 5;
-                            break;
-                        case "pile_button7":
-                            whichButton = 6;
-                            break;
-                        case "pile_button8":
-                            whichButton = 7;
-                            break;
-                        case "pile_button9":
-                            whichButton = 8;
-                            break;
-                        case "pile_button10":
-                            whichButton = 9;
-                            break;
-                        case "pile_button11":
-                            whichButton = 10;
-                            break;
-                        case "pile_button12":
-                            whichButton = 11;
-                            break;
-                    }
-                    boolean forGoAgain = true;
-                    for (int k = amt; k > 0; k--) {
-                        forGoAgain = true;
-                        if (whichButton == 5) {
-                            whichButton++;
-                            Button nextButton = pile_list_button.get(whichButton);
-                            if (whosTurn)//player one's turn so allow  p1 mancala to go up
-                            {
-                                //extra k-- because one goes in mancala
-                                k--;
-                                int newValue = Integer.parseInt(p1_mancala_label.getText());
-                                newValue++;
-                                p1_mancala_label.setText(String.valueOf(newValue));
-
-                                if (k > 0) {
-                                    forGoAgain = false;
-                                    newValue = Integer.parseInt(nextButton.getText());
-                                    newValue++;
-                                    nextButton.setText(String.valueOf(newValue));
-                                }
-                            } else {//else dont put anything into p1_mancala
-                                int newValue = Integer.parseInt(nextButton.getText());
-                                newValue++;
-                                nextButton.setText(String.valueOf(newValue));
-                            }
-                        } else if (whichButton == 11) {
-                            whichButton = 0;
-                            Button nextButton = pile_list_button.get(0);
-                            if (whosTurn)//if player one dont add to p2_mancala
-                            {
-                                int newValue = Integer.parseInt(nextButton.getText());
-                                newValue++;
-                                nextButton.setText(String.valueOf(newValue));
-                            } else {//add to p2 mancala cuz its p2's turn
-                                k--;
-                                int newValue = Integer.parseInt(p2_mancala_label.getText());
-                                newValue++;
-                                p2_mancala_label.setText(String.valueOf(newValue));
-
-                                if (k > 0) {
-                                    newValue = Integer.parseInt(nextButton.getText());
-                                    newValue++;
-                                    nextButton.setText(String.valueOf(newValue));
-                                    forGoAgain = false;
-                                }
-                            }
-                        } else {
-                            whichButton++;
-                            Button nextButton = pile_list_button.get(whichButton);
-                            int newValue = Integer.parseInt(nextButton.getText());
-                            newValue++;
-                            nextButton.setText(String.valueOf(newValue));
-                        }
-
-                        if (whichButton == 12) {
-                            whichButton = 0;
-                        }
-                    }
-
-                    //steal implementation
-                    int under12 = whichButton + 1;
-                    Button forSteal = pile_list_button.get(whichButton);
-                    if (forSteal.getText().compareTo("1") == 0 &&
-                            (under12 > 0 && under12 < 7) && whosTurn) {
-                        Button across = pile_list_button.get(11 - whichButton);
-                        int tempValue = Integer.parseInt(across.getText());
-                        int addTo = Integer.parseInt(p1_mancala_label.getText());
-                        int sum = addTo + tempValue;
-                        p1_mancala_label.setText(String.valueOf(sum));
-                        if (across.getText().compareTo("0") != 0)
-                            playSteal();
-                        across.setText("0");
-
-                    } else if (forSteal.getText().compareTo("1") == 0 &&
-                            (under12 > 6 && under12 < 13) && !whosTurn) {
-                        Button across = pile_list_button.get(11 - whichButton);
-                        int tempValue = Integer.parseInt(across.getText());
-                        int addTo = Integer.parseInt(p2_mancala_label.getText());
-                        int sum = addTo + tempValue;
-                        p2_mancala_label.setText(String.valueOf(sum));
-                        if (across.getText().compareTo("0") != 0)
-                            playSteal();
-                        across.setText("0");
-                    }
-
-
-                    String ending;
-                    if (whichButton == 6 && whosTurn && forGoAgain) {
-                        takeTurn(players);
-                        ending = "p1_mancala";
-                        turn_label.setText(player1turn);
-                        playGoAgain(amt);
-                        choiceByPC();
-
-                    } else if (whichButton == 0 && !whosTurn && forGoAgain) {
-                        takeTurn(players);
-                        ending = "p2 mancala";
-                        turn_label.setText(yourturnagain);
-                        playGoAgain(amt);
-                    } else {
-                        whosTurn = !whosTurn;
-                        takeTurn(players);
-                        ending = String.valueOf(++whichButton);
-                    }
-                    System.out.printf("Starting pile: %s \tEnding pile : %s " +
-                            "\t Pebbles: %d\n", button.getId(), ending, amt);
-                    Boolean check_win = true;
-                    for (int f = 0; f < 6; f++) {
-                        Button thisButtons = pile_list_button.get(f);
-//                        System.out.println(thisButtons.getText().compareTo("0")!=0);
-                        if (thisButtons.getText().compareTo("0") != 0)
-                            check_win = false;
-                    }
-                    if (check_win) {
-                        endGame();
-                        Victory();
-                    }
-                    check_win = true;
-                    for (int f = 6; f < 12; f++) {
-                        Button thisButtons = pile_list_button.get(f);
-//                        System.out.println(thisButtons.getText().compareTo("0")!=0);
-                        if (thisButtons.getText().compareTo("0") != 0)
-                            check_win = false;
-                    }
-                    if (check_win) {
-                        endGame();
-                        Victory();
-                    }
-                    if (whosTurn) {
-                        if (!check_win)
-                            choiceByPC();
-                    }
-                }
-            });
-        }*/
         cputurn = true;
-        choiceByPC();
+        //if repeat on the first turn, then go again
+        if(choiceByPC(0, false) == 2) {
+            PauseTransition pt_extra = new PauseTransition(Duration.seconds(3));
+            pt_extra.setOnFinished(event -> choiceByPC(4, false));
+            pt_extra.play();
+        }
     }
 
     public void InitializeVersus() {
@@ -644,33 +479,42 @@ public class game_Controller {
                     }
 
                     //steal implementation
-                    int under12 = whichButton + 1;
-                    Button forSteal = pile_list_button.get(whichButton);
+                    PauseTransition pt_steal = new PauseTransition(Duration.seconds((amt+1)/2.0));
+                    final int fwhichButton = whichButton;
+                    final boolean fForGoAgain = forGoAgain;
+                    pt_steal.setOnFinished(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent actionEvent) {
+                            int under12 = fwhichButton + 1;
+                            System.out.println("fwhichButton: "+fwhichButton);
+                            Button forSteal = pile_list_button.get(fwhichButton);
+                            System.out.printf("STEALING: Starting pile: %s \tEnding pile : %d " +
+                                    "\t Pebbles: %s\n", button.getId(), fwhichButton, forSteal.getText());
+                            if (forSteal.getText().compareTo("1") == 0 &&
+                                    (under12 > 0 && under12 < 7) && !whosTurn && fForGoAgain) {
+                                Button across = pile_list_button.get(11 - fwhichButton);
+                                int tempValue = Integer.parseInt(across.getText());
+                                int addTo = Integer.parseInt(p1_mancala_label.getText());
+                                int sum = addTo + tempValue;
+                                p1_mancala_label.setText(String.valueOf(sum));
+                                across.setText("0");
+                                if(tempValue != 0)
+                                    playSteal();
 
-                    System.out.printf("STEALING: Starting pile: %s \tEnding pile : %d " +
-                            "\t Pebbles: %d\n", button.getId(), under12, amt);
-                    if (forSteal.getText().compareTo("1") == 0 &&
-                            (under12 > 0 && under12 < 7) && whosTurn) {
-                        Button across = pile_list_button.get(11 - whichButton);
-                        int tempValue = Integer.parseInt(across.getText());
-                        int addTo = Integer.parseInt(p1_mancala_label.getText());
-                        int sum = addTo + tempValue;
-                        p1_mancala_label.setText(String.valueOf(sum));
-                        if (across.getText().compareTo("0") != 0)
-                            playSteal();
-                        across.setText("0");
-
-                    } else if (forSteal.getText().compareTo("1") == 0 &&
-                            (under12 > 6 && under12 < 13) && !whosTurn) {
-                        Button across = pile_list_button.get(11 - whichButton);
-                        int tempValue = Integer.parseInt(across.getText());
-                        int addTo = Integer.parseInt(p2_mancala_label.getText());
-                        int sum = addTo + tempValue;
-                        p2_mancala_label.setText(String.valueOf(sum));
-                        if (across.getText().compareTo("0") != 0)
-                            playSteal();
-                        across.setText("0");
-                    }
+                            } else if (forSteal.getText().compareTo("1") == 0 &&
+                                    (under12 > 6 && under12 < 13) && whosTurn && fForGoAgain) {
+                                Button across = pile_list_button.get(11 - fwhichButton);
+                                int tempValue = Integer.parseInt(across.getText());
+                                int addTo = Integer.parseInt(p2_mancala_label.getText());
+                                int sum = addTo + tempValue;
+                                p2_mancala_label.setText(String.valueOf(sum));
+                                across.setText("0");
+                                if(tempValue != 0)
+                                    playSteal();
+                            }
+                        }
+                    });
+                    pt_steal.play();
 
 
                     String ending;
@@ -698,29 +542,35 @@ public class game_Controller {
                     }
                     System.out.printf("Starting pile: %s \tEnding pile : %s " +
                             "\t Pebbles: %d\n", button.getId(), ending, amt);
-                    Boolean check_win = true;
-                    for (int f = 0; f < 6; f++) {
-                        Button thisButtons = pile_list_button.get(f);
-//                        System.out.println(thisButtons.getText().compareTo("0")!=0);
-                        if (thisButtons.getText().compareTo("0") != 0)
-                            check_win = false;
-                    }
-                    if (check_win) {
-                        endGame();
-                        Victory();
+                    //Endgame check needs a delay, otherwise it checks during animation. Causing early endgame
+                    PauseTransition pt_check = new PauseTransition(Duration.seconds((amt+1)/2.0));
+                    pt_check.setOnFinished(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent actionEvent) {
+                            boolean check_win = true;
+                            for (int f = 0; f < 6; f++) {
+                                Button thisButtons = pile_list_button.get(f);
+                                if (thisButtons.getText().compareTo("0") != 0)
+                                    check_win = false;
+                            }
+                            if (check_win) {
+                                endGame();
+                                Victory(amt);
 
-                    }
-                    check_win = true;
-                    for (int f = 6; f < 12; f++) {
-                        Button thisButtons = pile_list_button.get(f);
-                        if (thisButtons.getText().compareTo("0") != 0)
-                            check_win = false;
-                    }
-                    if (check_win) {
-                        endGame();
-                        Victory();
-                    }
-
+                            }
+                            check_win = true;
+                            for (int f = 6; f < 12; f++) {
+                                Button thisButtons = pile_list_button.get(f);
+                                if (thisButtons.getText().compareTo("0") != 0)
+                                    check_win = false;
+                            }
+                            if (check_win) {
+                                endGame();
+                                Victory(amt);
+                            }
+                        }
+                    });
+                    pt_check.play();
                 }
             });
         }
@@ -804,7 +654,7 @@ public class game_Controller {
         player_settings.setText("Versus");
     }
 
-    public void Victory() {
+    public void Victory(int amt) {
         playVictory();
         int playerOneScore = Integer.parseInt(p1_mancala_label.getText());
         int playerTwoScore = Integer.parseInt(p2_mancala_label.getText());
@@ -834,6 +684,15 @@ public class game_Controller {
                 winner_label.setVisible(true);
             }
         }
+        PauseTransition pt_end = new PauseTransition(Duration.seconds((amt+1)/2.0));
+        pt_end.setOnFinished(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                for(Button b : pile_list_button)
+                    b.setText("0");
+            }
+        });
+        pt_end.play();
     }
 
     public void playStart() {
@@ -901,8 +760,8 @@ public class game_Controller {
         }
     }
 
-    public void choiceByPC() {
-        cputurn = false; //end turn
+    public int choiceByPC(int amt, boolean forGoAgain) {
+        cputurn = forGoAgain; //end turn
         ArrayList<Integer> mList = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
             Button button = pile_list_button.get(i);
@@ -912,14 +771,15 @@ public class game_Controller {
         }
         Random ran = new Random();
         int x = mList.size();
-        int randNum;
+        int randNum = -1;
         if (x > 0) {
             randNum = ran.nextInt(x);
             Button button = pile_list_button.get(mList.get(randNum));
             button.fire();
         } else {
             endGame();
-            Victory();
+            Victory(amt);
         }
+        return randNum;
     }
 }

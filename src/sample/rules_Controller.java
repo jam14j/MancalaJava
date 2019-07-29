@@ -1,6 +1,5 @@
 package sample;
 
-import com.sun.jdi.event.StepEvent;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -64,10 +63,10 @@ public class rules_Controller implements Initializable {
 			title.setText("Mancala Regles");
 			menuButton.setText("Menu Principal");
 			try {
-				Scanner sc = new Scanner(new File("rules_spanish.txt"));
+				Scanner sc = new Scanner(new File("rules_french2.txt"));
 				StringBuilder sb = new StringBuilder("");
-				while (sc.hasNextLine())
-					sb.append("\n");
+				while(sc.hasNextLine())
+					sb.append(sc.nextLine()+"\n");
 				rules.setText(sb.toString());
 				sc.close();
 			}
